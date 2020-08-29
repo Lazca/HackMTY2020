@@ -36,19 +36,19 @@ def inBound(boundary, x, y):
 
 def getTableArrangement(boundary, minDist, tableRadius):
     tables = []
+    length = minDist + tableRadius
 
     def addTable(x, y):
-        if positionTaken(tables, (x,y), minDist):
+        if not inBound(boundary, x, y):
             return
-        elif not inBound(boundary, x, y):
+        elif positionTaken(tables, (x,y), minDist):
             return
         else:
             tables.append(Table((x,y)))
-            angle = 0.0
 
             for i in range(6):
-                newX = tableRadius + minDist*math.cos(i/(2*math.pi))
-                newY = tableRadius + minDist*math.sin(i/(2*math.pi))
+                newX = 2*length*math.cos(math.pi*i/3)
+                newY = 2*length*math.sin(math.pi*i/3)
                 addTable(x + newX, y + newY)
 
     addTable(0,0)
@@ -56,7 +56,7 @@ def getTableArrangement(boundary, minDist, tableRadius):
     return tables
 
 if __name__ == "__main__":
-    tables = getTableArrangement((0,0,20,15), 1.5, 1)
+    tables = getTableArrangement((0,0,7.5,5), 1.5, 1)
 
     for table in tables:
         print(f"{table.position[0]}\t{table.position[1]}\t{table.capacity}")
