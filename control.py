@@ -1,17 +1,4 @@
-class Mesa:
-    def __init__(self,x,y):
-        self.x=x
-        self.y=y
-        self.ocupantes=0;
-
-    def get_ocupantes(self):
-        return self.ocupantes
-
-    def set_ocupantes(self,n):
-        self.ocupantes=n
-
-    def vaciar(self):
-        self.ocupantes=0
+from Tables import *
 
 class Control:
 
@@ -31,12 +18,18 @@ class Control:
             return
 
         for mesa in self.mesas:
-            if mesa.get_ocupantes() == 0:
+            if mesa.getCapacity() == 0:
                 self.ocupados+=n
-                mesa.set_ocupantes(n)
+                mesa.setCapacity(n)
                 print('grupo sentado')
                 return
 
-    def vaciar_mesa(indice):
-        self.ocupados-=self.mesas[indice].get_ocupantes()
-        self.mesas[indice].vaciar()
+    def vaciar_mesa(self,indice):
+        self.ocupados-=self.mesas[indice].getCapacity()
+        self.mesas[indice].clear()
+
+print('test')
+lista=getTableArrangement((0,0,20,15), 1.5, 1)
+control=Control(lista,4,20)
+control.sentar_grupo(4)
+control.vaciar_mesa(0)
