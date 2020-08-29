@@ -21,4 +21,6 @@ class Node():
     def get_width():
         return self.get_width
 
-class Quad
+class QuadTree():
+    def __init__(self, lim)
+        self.limit=lim 
