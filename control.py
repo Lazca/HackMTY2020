@@ -4,14 +4,14 @@ class Mesa:
         self.y=y
         self.ocupantes=0;
 
-        def get_ocupantes():
-            return self.ocupantes
+    def get_ocupantes(self):
+        return self.ocupantes
 
-        def set_ocupantes(n):
-            self.ocupantes=n
+    def set_ocupantes(self,n):
+        self.ocupantes=n
 
-        def vaciar():
-            self.ocupantes=0
+    def vaciar(self):
+        self.ocupantes=0
 
 class Control:
 
@@ -21,16 +21,22 @@ class Control:
         self.capacidad_mesa=cm
         self.capacidad_maxima=max
 
-    def sentar_grupo(n):
+    def sentar_grupo(self,n):
+        if n > self.capacidad_mesa:
+            print('grupo mayour a la capacidad maxima por mesa')
+            return
+
         if self.ocupados >= self.capacidad_maxima:
+            print('capacidad maxima alcanzada')
             return
 
         for mesa in self.mesas:
             if mesa.get_ocupantes() == 0:
                 self.ocupados+=n
                 mesa.set_ocupantes(n)
+                print('grupo sentado')
                 return
 
-    def vaciar_mesa(int indice):
+    def vaciar_mesa(indice):
         self.ocupados-=self.mesas[indice].get_ocupantes()
         self.mesas[indice].vaciar()
