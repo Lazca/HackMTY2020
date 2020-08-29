@@ -23,4 +23,8 @@ class Node():
 
 class QuadTree():
     def __init__(self, lim)
-        self.limit=lim 
+        self.limit=lim
+        self.points=[]
+
+    def add_point(x,y):
+        self.points.append(Point(x,y))
