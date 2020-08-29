@@ -32,7 +32,7 @@ def positionTaken(tables, position, minDist):
 
 def inBound(boundary, x, y):
     x0, y0, width, height = boundary
-    return (x0 <= x < width) and (y0 <= y < height)
+    return (x0 <= x <= width) and (y0 <= y <= height)
 
 def getTableArrangement(boundary, minDist, tableRadius):
     tables = []
@@ -49,7 +49,7 @@ def getTableArrangement(boundary, minDist, tableRadius):
             for i in range(6):
                 newX = tableRadius + minDist*math.cos(i/(2*math.pi))
                 newY = tableRadius + minDist*math.sin(i/(2*math.pi))
-                addTable(newX, newY)
+                addTable(x + newX, y + newY)
 
     addTable(0,0)
 
