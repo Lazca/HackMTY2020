@@ -8,6 +8,9 @@ class Control:
         self.capacidad_mesa=cm
         self.capacidad_maxima=max
 
+    def getTables(self):
+        return self.mesas
+
     def sentar_grupo(self,n):
         if n > self.capacidad_mesa:
             print('grupo mayour a la capacidad maxima por mesa')
@@ -28,7 +31,7 @@ class Control:
         self.ocupados-=self.mesas[indice].getCapacity()
         self.mesas[indice].clear()
 
-print('test')
+
 lista=getTableArrangement((0,0,20,15), 1.5, 1)
 control=Control(lista,4,20)
 control.sentar_grupo(4)
