@@ -83,16 +83,19 @@ if __name__ == "__main__":
     while True:
         event,values = window.read()
         lsTable = update(values,control)
+        
         if event == "Dibujar" and lsTable:
             graph = window['graph']
-            h=int((int(values[7])/int(values[6]))*500)
-            #graph.TKCanvas.config(height=h)
             graph.TKCanvas.delete('all')
+            h = int((int(values[7])/int(values[6]))*500)
+            offset = (500 - h)/2
+            
             for table in lsTable:
                 x,y = table.position
                 x = remap(x,0,int(values[6]),25,475)
-                y = remap(y,0,int(values[7]),25,h-25)
+                y = remap(y,0,int(values[7]),25 + offset,h - 25 + offset)
                 circle = graph.DrawCircle((x,y), 10, fill_color='blue',line_color='black')
+                
         if event == sg.WIN_CLOSED:
             break
 
