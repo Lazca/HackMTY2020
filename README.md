@@ -1,4 +1,4 @@
-# HackMTY2020
+# CoSMaS
 Repositorio para el codigo de UltimateLlamas HackMTY 2020
 
 ## Inspiration
