@@ -44,9 +44,9 @@ if __name__ == "__main__":
 
     sg.theme("DarkGrey")
     layoutTemp = [
-            [sg.Text("Themes: "),sg.Combo(values = ("White","Black","Default"),key = "-Theme-")],
+            [sg.Text("Temas: "),sg.Combo(values = ("Blanco","Negro","Default"),key = "-Theme-")],
             [sg.Button("Confirm")]]
-    windowTemp = sg.Window("Themes",layoutTemp, size = (200,200))
+    windowTemp = sg.Window("Temas",layoutTemp, size = (200,200),icon = "restaurant.ico")
 
     event,values = windowTemp.read()
 
@@ -63,6 +63,7 @@ if __name__ == "__main__":
     sg.theme(theme)
     control=Control([],0,0)
 
+
     layout = [
             [sg.Text("Distancia entre Mesas: ",size = (30,1)),sg.InputText()],  #0
             [sg.Text("Radio de Mesa: ",size = (30,1)),sg.InputText()],          #1
@@ -71,21 +72,28 @@ if __name__ == "__main__":
             [sg.Text("Porcentaje de Capacidad: ",size = (30,1)),sg.InputText()],#4
             [sg.Text("Capacidad por Mesa: ",size = (30,1)),sg.InputText()],     #5
             [sg.Text("Ancho del Restaurante: ",size = (30,1)),sg.InputText()],  #6
-            [sg.Text("Largo del Restaurante: ",size = (30,1)),sg.InputText()],  #7
+            [sg.Text("Largo del Restaurante: ",size = (30,1)),sg.InputText(),], #7
+            [sg.Text("Gente Dentro: ",size=(30,1),text_color = "green"),sg.Input()],
+            [sg.Text("Cupo Limite: ",size=(30,1),text_color = "green"),sg.Input()],
+            [sg.Text("Sentar Grupo: ",size=(30,1),text_color = "green"),sg.InputText()],
+            [sg.Text("Desalojar Mesa: ",size=(30,1),text_color = "green"),sg.InputText()],
             [sg.Button("Enviar", size = (30,2))],
             [sg.Button("Dibujar", size = (30,2))],
-            [sg.Graph(canvas_size=(500, 500), graph_bottom_left=(0,0), graph_top_right=(500, 500), background_color='white', key='graph')]
-            ]
+            [sg.Graph(canvas_size=(500, 500), \
+            graph_bottom_left=(0,0), graph_top_right=(500, 500), background_color='white', key='graph',drag_submits = True)]
+           ]
 
-    window = sg.Window("test",layout,finalize = True)
+    window = sg.Window("Asignador",layout,finalize = True,icon = "restaurant.ico")
     window.Maximize()
 
     while True:
         event,values = window.read()
+        print(values)
         lsTable = update(values,control)
         
         if event == "Dibujar" and lsTable:
             graph = window['graph']
+            print(graph)
             graph.TKCanvas.delete('all')
             h = int((int(values[7])/int(values[6]))*500)
             offset = (500 - h)/2
