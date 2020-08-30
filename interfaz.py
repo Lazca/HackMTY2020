@@ -37,6 +37,8 @@ def update(values,control):
 
     return control.getTables()
 
+def remap(value, oldLow, oldHigh, newLow, newHigh):
+    return newLow + (newHigh - newLow)*((value -oldLow)/(oldHigh - oldLow ))
 
 if __name__ == "__main__":
 
@@ -72,20 +74,21 @@ if __name__ == "__main__":
             [sg.Text("Largo del Restaurante: ",size = (30,1)),sg.InputText()],  #7
             [sg.Button("Enviar", size = (30,2))],
             [sg.Button("Dibujar", size = (30,2))],
-            [sg.Graph(canvas_size=(500, 400), graph_bottom_left=(0,0), graph_top_right=(500, 400), background_color='white', key='graph')]]
+            [sg.Graph(canvas_size=(400, 400), graph_bottom_left=(0,0), graph_top_right=(400, 400), background_color='white', key='graph')]]
 
-    window = sg.Window("test",layout,size = (500,600),resizable = True)
+    window = sg.Window("test",layout, finalize = True)
+    window.Maximize()
 
     while True:
         event,values = window.read()
         lsTable = update(values,control)
-
         if event == "Dibujar" and lsTable:
             graph = window['graph']
-
             for table in lsTable:
-                circle = graph.DrawCircle(table.position, 10, fill_color='white',line_color='black')
-
+                x,y = table.position
+                x = remap(x,0,int(values[6]),0,400)
+                y = remap(y,0,int(values[7]),0,400)
+                circle = graph.DrawCircle((x,y), 10, fill_color='blue',line_color='black')
         if event == sg.WIN_CLOSED:
             break
 
