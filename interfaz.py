@@ -77,7 +77,7 @@ if __name__ == "__main__":
             [sg.Text("Cupo Limite: ",size=(30,1),text_color = "green"),sg.Input()],         #9
             [sg.Text("Sentar Grupo: ",size=(30,1),text_color = "green"),sg.InputText()],    #10
             [sg.Text("Desalojar Mesa: ",size=(30,1),text_color = "green"),sg.InputText()],  #11
-            [sg.Button("Enviar", size = (30,2)), sg.Button("Dibujar", size = (30,2))],
+            [sg.Button("Enviar", size = (30,1)), sg.Button("Dibujar", size = (30,1))],
             [sg.Graph(canvas_size=(500, 500), \
             graph_bottom_left=(0,0), graph_top_right=(500, 500), background_color='white', key='graph',drag_submits = True)]
            ]
