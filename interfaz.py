@@ -3,18 +3,23 @@ from control import *
 
 def getErrors():
     errors=[]
-    if float(values[0]) < 1.5:
-        errors.append('La distancia entre mesas debe ser de al menos 1.5 m')
-    if int(values[4]) <=10 or int(values[4]) >100:
-        errors.append('Introduzca un valor de ocupacion por porcentaje entre 10 y 100')
-    if int(values[6]) <= 0 or int(values[7]) <=0:
-        errors.append('Introduzca medidas validas')
-    if int(values[5]) <1:
-        errors.append('La capacidad por mesa debe ser de al menos una persona')
-    if float(values[1])<0.5:
-        errors.append('el radio de la mesa debe ser de al menos 0.4 m')
-    if int(values[3]) < 10:
-        errors.append('la capacidad normal debe ser de al menos 10 personas')
+    for i in range(0,8):
+        if not values[i]:
+            errors.append('No debe haber valores nulos')
+            break
+    if not len(errors):
+        if float(values[0]) < 1.5:
+            errors.append('La distancia entre mesas debe ser de al menos 1.5 m')
+        if int(values[4]) <=10 or int(values[4]) >100:
+            errors.append('Introduzca un valor de ocupacion por porcentaje entre 10 y 100')
+        if int(values[6]) <= 0 or int(values[7]) <=0:
+            errors.append('Introduzca medidas validas')
+        if int(values[5]) <1:
+            errors.append('La capacidad por mesa debe ser de al menos una persona')
+        if float(values[1])<0.5:
+            errors.append('el radio de la mesa debe ser de al menos 0.4 m')
+        if int(values[3]) < 10:
+            errors.append('la capacidad normal debe ser de al menos 10 personas')
 
     for error in errors:
         sg.Popup(error,title='error', keep_on_top=True, any_key_closes=True)
@@ -29,7 +34,7 @@ def update(values,control):
         control.setTableCapacity(int(values[5]))
         max=int(int(values[3])*(int(values[4])/100))
         control.setMaxCapacity(max)
-    
+
     return control.getTables()
 
 
@@ -77,5 +82,5 @@ if __name__ == "__main__":
             pass
         if event == sg.WIN_CLOSED:
             break
-    
+
     window.close()
