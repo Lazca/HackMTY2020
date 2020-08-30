@@ -71,9 +71,10 @@ if __name__ == "__main__":
             [sg.Text("Ancho del Restaurante: ",size = (30,1)),sg.InputText()],  #6
             [sg.Text("Largo del Restaurante: ",size = (30,1)),sg.InputText()],  #7
             [sg.Button("Enviar", size = (30,2))],
-            [sg.Button("Dibujar", size = (30,2))]]
+            [sg.Button("Dibujar", size = (30,2))],
+            [sg.Graph(canvas_size=(500, 400), graph_bottom_left=(0,0), graph_top_right=(500, 400), background_color='white', key='graph')]]
 
-    window = sg.Window("test",layout,size = (800,600),resizable = True)
+    window = sg.Window("test",layout,size = (500,600),resizable = True)
 
     while True:
         event,values = window.read()
