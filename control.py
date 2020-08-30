@@ -8,8 +8,15 @@ class Control:
         self.capacidad_mesa=cm
         self.capacidad_maxima=max
 
-    def updateTable(self,boundary, minDist, tableRadius):
-        self.mesas=getTableArrangement(boundary,minDist,tableRadius)
+    def setMaxCapacity(self,n):
+        self.capacidad_maxima=n
+
+    def setTableCapacity(self,n):
+        self.capacidad_mesa=n
+
+    def updateTable(self,boundary, minDist, tableRadius,personWidth):
+        self.mesas=getTableArrangement(boundary,minDist,tableRadius,personWidth)
+        self.ocupados=0
 
     def getTables(self):
         return self.mesas
