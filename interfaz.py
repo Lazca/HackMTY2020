@@ -74,9 +74,10 @@ if __name__ == "__main__":
             [sg.Text("Largo del Restaurante: ",size = (30,1)),sg.InputText()],  #7
             [sg.Button("Enviar", size = (30,2))],
             [sg.Button("Dibujar", size = (30,2))],
-            [sg.Graph(canvas_size=(400, 400), graph_bottom_left=(0,0), graph_top_right=(400, 400), background_color='white', key='graph')]]
+            [sg.Graph(canvas_size=(500, 500), graph_bottom_left=(0,0), graph_top_right=(500, 500), background_color='white', key='graph')]
+            ]
 
-    window = sg.Window("test",layout, finalize = True)
+    window = sg.Window("test",layout,finalize = True)
     window.Maximize()
 
     while True:
@@ -84,10 +85,11 @@ if __name__ == "__main__":
         lsTable = update(values,control)
         if event == "Dibujar" and lsTable:
             graph = window['graph']
+            graph.TKCanvas.delete('all')
             for table in lsTable:
                 x,y = table.position
-                x = remap(x,0,int(values[6]),0,400)
-                y = remap(y,0,int(values[7]),0,400)
+                x = remap(x,0,int(values[6]),25,475)
+                y = remap(y,0,int(values[7]),0,500)
                 circle = graph.DrawCircle((x,y), 10, fill_color='blue',line_color='black')
         if event == sg.WIN_CLOSED:
             break
