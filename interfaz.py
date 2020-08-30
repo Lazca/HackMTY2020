@@ -10,7 +10,7 @@ def getErrors():
     if not len(errors):
         if float(values[0]) < 1.5:
             errors.append('La distancia entre mesas debe ser de al menos 1.5 m')
-        if 10 <= int(values[4]) < 100:
+        if 10 > int(values[4]) or int(values[4])>100:
             errors.append('Introduzca un valor de ocupacion por porcentaje entre 10 y 100')
         if int(values[6]) <= 0 or int(values[7]) <=0:
             errors.append('Introduzca medidas validas')
@@ -24,7 +24,7 @@ def getErrors():
     for error in errors:
         sg.Popup(error,title='error', keep_on_top=True, any_key_closes=True)
 
-    return len(error)
+    return len(errors)
 
 def update(values,control):
     if getErrors():
@@ -47,7 +47,7 @@ if __name__ == "__main__":
     windowTemp = sg.Window("Themes",layoutTemp, size = (200,200))
 
     event,values = windowTemp.read()
-    
+
     if event == "Confirm" and values["-Theme-"] == "Black":
         print(True)
         theme = "DarkBlack"
@@ -79,13 +79,13 @@ if __name__ == "__main__":
     while True:
         event,values = window.read()
         lsTable = update(values,control)
-        
+
         if event == "Dibujar" and lsTable:
             graph = window['graph']
-            
+
             for table in lsTable:
                 circle = graph.DrawCircle(table.position, 10, fill_color='white',line_color='black')
-                
+
         if event == sg.WIN_CLOSED:
             break
 
