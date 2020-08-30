@@ -24,17 +24,36 @@ def getErrors():
 def update(values,control):
     if getErrors():
         print('exiting')
-        return
-
-    control.updateTable((0,0,float(values[6]),float(values[7])),float(values[0]),float(values[1]),float(values[2]))
-    control.setTableCapacity(int(values[5]))
-    max=int(int(values[3])*(int(values[4])/100))
-    control.setMaxCapacity(max)
+    else:
+        control.updateTable((0,0,float(values[6]),float(values[7])),float(values[0]),float(values[1]),float(values[2]))
+        control.setTableCapacity(int(values[5]))
+        max=int(int(values[3])*(int(values[4])/100))
+        control.setMaxCapacity(max)
+    
+    return control.getTables()
 
 
 if __name__ == "__main__":
 
-    sg.theme("DarkBlack")
+    sg.theme("DarkGrey")
+    layoutTemp = [
+            [sg.Text("Themes: "),sg.Combo(values = ("White","Black","Default"),key = "-Theme-")],
+            [sg.Button("Confirm")]]
+    windowTemp = sg.Window("Themes",layoutTemp, size = (200,200))
+
+
+    event,values = windowTemp.read()
+    if event == "Confirm" and values["-Theme-"] == "Black":
+        print(True)
+        theme = "DarkBlack"
+    elif event == "Confirm" and values["-Theme-"] == "White":
+        theme = "BrightColors"
+    else:
+        theme = "DarkGrey"
+
+    windowTemp.close()
+
+    sg.theme(theme)
     control=Control([],0,0)
 
     layout = [
@@ -46,14 +65,17 @@ if __name__ == "__main__":
             [sg.Text("Capacidad por Mesa: ",size = (30,1)),sg.InputText()],     #5
             [sg.Text("Ancho del Restaurante: ",size = (30,1)),sg.InputText()],  #6
             [sg.Text("Largo del Restaurante: ",size = (30,1)),sg.InputText()],  #7
-            [sg.Button("Enviar",auto_size_button = True)]]
+            [sg.Button("Enviar", size = (30,2))],
+            [sg.Button("Dibujar", size = (30,2))]]
 
     window = sg.Window("test",layout,size = (800,600),resizable = True)
 
     while True:
         event,values = window.read()
-        update(values,control)
+        lsTable = update(values,control)
+        if event == "Dibujar" and lsTable:
+            pass
         if event == sg.WIN_CLOSED:
             break
-
-            window.close()
+    
+    window.close()
