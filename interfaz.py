@@ -1,7 +1,31 @@
 import PySimpleGUI as sg
 from control import *
 
+def getErrors():
+    errors=[]
+    if float(values[0]) < 1.5:
+        errors.append('La distancia entre mesas debe ser de al menos 1.5 m')
+    if int(values[4]) <=10 or int(values[4]) >100:
+        errors.append('Introduzca un valor de ocupacion por porcentaje entre 10 y 100')
+    if int(values[6]) <= 0 or int(values[7]) <=0:
+        errors.append('Introduzca medidas validas')
+    if int(values[5]) <1:
+        errors.append('La capacidad por mesa debe ser de al menos una persona')
+    if float(values[1])<0.5:
+        errors.append('el radio de la mesa debe ser de al menos 0.4 m')
+    if int(values[3]) < 10:
+        errors.append('la capacidad normal debe ser de al menos 10 personas')
+
+    for error in errors:
+        sg.Popup(error,title='error', keep_on_top=True, any_key_closes=True)
+
+    return len(error)
+
 def update(values,control):
+    if getErrors():
+        print('exiting')
+        return
+
     control.updateTable((0,0,float(values[6]),float(values[7])),float(values[0]),float(values[1]),float(values[2]))
     control.setTableCapacity(int(values[5]))
     max=int(int(values[3])*(int(values[4])/100))
