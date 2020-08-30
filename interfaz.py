@@ -6,7 +6,7 @@ def update(values,control):
     control.setTableCapacity(int(values[5]))
     max=int(int(values[3])*(int(values[4])/100))
     control.setMaxCapacity(max)
-    print(max)
+
 
 if __name__ == "__main__":
 
