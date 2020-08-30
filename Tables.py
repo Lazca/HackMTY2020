@@ -1,4 +1,4 @@
-# Module Tables.py 
+# Module Tables.py
 
 import math
 
@@ -8,7 +8,7 @@ class Table:
         self.capacity = 0
 
     def getCapacity(self):
-        return self.position
+        return self.capacity
 
     def setCapacity(self, capacity):
         self.capacity = capacity
@@ -60,4 +60,3 @@ if __name__ == "__main__":
 
     for table in tables:
         print(f"{table.position[0]}\t{table.position[1]}\t{table.capacity}")
-

@@ -30,7 +30,7 @@ def getErrors():
 
     return len(errors)
 
-def update(values,control):
+def update(values,control,layout):
     if getErrors():
         print('exiting')
     else:
@@ -38,7 +38,8 @@ def update(values,control):
         control.setTableCapacity(int(values[5]))
         max=int(int(values[3])*(int(values[4])/100))
         control.setMaxCapacity(max)
-
+        layout[8][1].Update(value=0)
+        layout[9][1].Update(value=control.getMaxCapacity())
     return control.getTables()
 
 def remap(value, oldLow, oldHigh, newLow, newHigh):
@@ -76,49 +77,34 @@ if __name__ == "__main__":
             [sg.Text("Capacidad por Mesa: ",size = (30,1)),sg.InputText()],                             #5
             [sg.Text("Ancho del Restaurante: ",size = (30,1)),sg.InputText()],                          #6
             [sg.Text("Largo del Restaurante: ",size = (30,1)),sg.InputText(),],                         #7
-            [sg.Text("Gente Dentro: ",size=(30,1),text_color = "green"),sg.InputText(disabled=true)],                    #8
-            [sg.Text("Cupo Limite: ",size=(30,1),text_color = "green"),sg.InputText(disabled=True)],                     #9
+            [sg.Text("Gente Dentro: ",size=(30,1),text_color = "green"),sg.InputText(disabled=True, text_color='black')],                    #8
+            [sg.Text("Cupo Limite: ",size=(30,1),text_color = "green"),sg.InputText(disabled=True,text_color='black')],                     #9
             [sg.Text("Sentar Grupo de tamaño: ",size=(30,1),text_color = "green"),sg.InputText()],      #10
             [sg.Text("Desalojar Mesa No: ",size=(30,1),text_color = "green"),sg.InputText()],           #11
             [sg.Button("Enviar", size = (30,1)), sg.Button("Dibujar", size = (30,1))],
-            [sg.Button("Sentar", size = (30,1)), sg.Button("Desalojar mesa", size = (30,1))],
-            [sg.Graph(canvas_size=(500, 500), \
-            graph_bottom_left=(0,0), graph_top_right=(500, 500), background_color='white', key='graph',drag_submits = True)]
+            [sg.Button("Sentar", size = (30,1)), sg.Button("Desalojar", size = (30,1))],
+            [sg.Graph(canvas_size=(475, 475),graph_bottom_left=(0,0), graph_top_right=(475, 475), background_color='white', key='graph',drag_submits = True)]
            ]
-
-    for label in layout:
-        print(label)
 
     window = sg.Window("Asignador",layout,finalize = True,icon = "restaurant.ico")
     window.Maximize()
 
     while True:
         event,values = window.read()
-        print(values)
-        lsTable = update(values,control)
+        if event=="Enviar":
+            lsTable = update(values,control,layout)
 
         if event == "Dibujar" and lsTable:
-            control.setMaxCapacity(100)
-
-            if values[5]:
-                control.setTableCapacity(int(values[5]))
-
-            if values[10]:
-                control.sentar_grupo(int(values[10]))
-
-            if values[11]:
-                control.vaciar_mesa(int(values[11]))
-
             # dibujar mesas
             graph = window['graph']
             graph.TKCanvas.delete('all')
 
-            h = int(values[7])/int(values[6])*475
-            offset = (500 - h)/2
+            h = int(values[7])/int(values[6])*450
+            offset = (475 - h)/2
 
-            for index, table in enumerate(lsTable):
+            for index, table in enumerate(control.getTables()):
                 x,y = table.position
-                x = remap(x,0,int(values[6]),25,475)
+                x = remap(x,0,int(values[6]),25,450)
                 y = remap(y,0,int(values[7]),25 + offset,h - 25 + offset)
 
                 if table.capacity == 0:
@@ -128,7 +114,38 @@ if __name__ == "__main__":
 
                 graph.DrawCircle((x,y), 10, fill_color,line_color='black')
                 graph.DrawText(str(index), (x,y), color='white')
+        if event=='Sentar' and values[10]:
+            control.setMaxCapacity(int(values[9]))
+            error=control.sentar_grupo(int(values[10]))
+            if error:
+                sg.Popup(error,title='error', keep_on_top=True, any_key_closes=True)
+            else:
+                print(control.getCapacity())
+                layout[8][1].Update(value=control.getCapacity())
+                for index, table in enumerate(control.getTables()):
+                    x,y = table.position
+                    x = remap(x,0,int(values[6]),25,450)
+                    y = remap(y,0,int(values[7]),25 + offset,h - 25 + offset)
 
+                    if table.capacity == 0:
+                        fill_color = 'green'
+                    else:
+                        fill_color = 'red'
+                    graph.DrawCircle((x,y), 10, fill_color,line_color='black')
+                    graph.DrawText(str(index), (x,y), color='white')
+        if event == 'Desalojar' and values[11]:
+            control.vaciar_mesa(int(values[11]))
+            for index, table in enumerate(control.getTables()):
+                x,y = table.position
+                x = remap(x,0,int(values[6]),25,450)
+                y = remap(y,0,int(values[7]),25 + offset,h - 25 + offset)
+
+                if table.capacity == 0:
+                    fill_color = 'green'
+                else:
+                    fill_color = 'red'
+                graph.DrawCircle((x,y), 10, fill_color,line_color='black')
+                graph.DrawText(str(index), (x,y), color='white')
         if event == sg.WIN_CLOSED:
             break
 
