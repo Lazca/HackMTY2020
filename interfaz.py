@@ -48,24 +48,6 @@ def remap(value, oldLow, oldHigh, newLow, newHigh):
 if __name__ == "__main__":
 
     sg.theme("DarkGrey")
-    layoutTemp = [
-            [sg.Text("Temas: "),sg.Combo(values = ("Blanco","Negro","Default"),key = "-Theme-")],
-            [sg.Button("Confirm")]]
-    windowTemp = sg.Window("Temas",layoutTemp, size = (200,200),icon = "restaurant.ico")
-
-    event,values = windowTemp.read()
-
-    if event == "Confirm" and values["-Theme-"] == "Black":
-        print(True)
-        theme = "DarkBlack"
-    elif event == "Confirm" and values["-Theme-"] == "White":
-        theme = "BrightColors"
-    else:
-        theme = "DarkGrey"
-
-    windowTemp.close()
-
-    sg.theme(theme)
     control=Control([],0,0)
 
     layout = [
@@ -86,7 +68,7 @@ if __name__ == "__main__":
             [sg.Graph(canvas_size=(475, 475),graph_bottom_left=(0,0), graph_top_right=(475, 475), background_color='white', key='graph',drag_submits = True)]
            ]
 
-    window = sg.Window("Asignador",layout,finalize = True,icon = "restaurant.ico")
+    window = sg.Window("CoSMaS",layout,finalize = True,icon = "restaurant.ico")
     window.Maximize()
 
     while True:
